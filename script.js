@@ -12,9 +12,19 @@ if (hamburger && mobileMenu) {
     hamburger.setAttribute('aria-expanded', 'false');
   }));
 }
-
-
-
+// Hero Video Playback Logic (Play on desktop, Pause on mobile)
+const heroVideo = document.getElementById('heroBgVideo');
+if (heroVideo) {
+    function handleVideoPlayback() {
+        if (window.innerWidth > 768) {
+            heroVideo.play().catch(e => console.log('Autoplay prevented:', e));
+        } else {
+            heroVideo.pause();
+        }
+    }
+    handleVideoPlayback();
+    window.addEventListener('resize', handleVideoPlayback, { passive: true });
+}
 
 // FAQ accordion
 document.querySelectorAll('.faq-q').forEach(btn => {
