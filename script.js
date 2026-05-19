@@ -1,3 +1,17 @@
+// Low-End Device / Performance Degradation Detection
+(function detectDevicePerformance() {
+  try {
+    const isLowEnd = (
+      (navigator.deviceMemory && navigator.deviceMemory < 4) ||
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4) ||
+      (navigator.connection && (navigator.connection.saveData || /2g|3g/.test(navigator.connection.effectiveType)))
+    );
+    if (isLowEnd) {
+      document.documentElement.classList.add('low-end');
+    }
+  } catch (e) {}
+})();
+
 // Mobile menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -16,7 +30,7 @@ if (hamburger && mobileMenu) {
 const heroVideo = document.getElementById('heroBgVideo');
 if (heroVideo) {
     function handleVideoPlayback() {
-        if (window.innerWidth > 768) {
+        if (window.innerWidth > 768 && !document.documentElement.classList.contains('low-end')) {
             heroVideo.play().catch(e => console.log('Autoplay prevented:', e));
         } else {
             heroVideo.pause();
@@ -91,20 +105,47 @@ if (form) {
 const heroNav  = document.getElementById('heroNav');
 const heroSection = document.getElementById('home');
 
+let cachedHeroBottom = 0;
+function recacheLayout() {
+  if (heroSection) {
+    cachedHeroBottom = heroSection.offsetTop + heroSection.offsetHeight;
+  }
+}
+recacheLayout();
+
+// Debounce layout updates on resize to prevent thrashing
+let resizeTimeout;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimeout);
+  resizeTimeout = setTimeout(() => {
+    recacheLayout();
+  }, 200);
+}, { passive: true });
+
 function updateNav() {
-  if (!heroNav || !heroSection) return;
+  if (!heroNav) return;
   const scrollY = window.scrollY;
-  const heroBottom = heroSection.offsetTop + heroSection.offsetHeight;
   if (scrollY < 60) {
     heroNav.classList.remove('scrolled', 'past-hero');
-  } else if (scrollY < heroBottom - 80) {
+  } else if (scrollY < cachedHeroBottom - 80) {
     heroNav.classList.add('scrolled');
     heroNav.classList.remove('past-hero');
   } else {
     heroNav.classList.add('scrolled', 'past-hero');
   }
 }
-window.addEventListener('scroll', updateNav, { passive: true });
+
+// requestAnimationFrame scroll throttle
+let ticking = false;
+window.addEventListener('scroll', () => {
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      updateNav();
+      ticking = false;
+    });
+    ticking = true;
+  }
+}, { passive: true });
 updateNav();
 
 

@@ -761,6 +761,49 @@ footer{background:var(--text);color:var(--text-light);padding:80px 24px 120px}
   .sticky-bar{display:flex}
   .cta-btns{flex-direction:column;align-items:center; gap:16px}
   .btn-white, .btn-ghost{width:100%; justify-content:center}
+
+  /* GPU Repaint Optimization: Disable expensive backdrop-filters on budget mobile screens */
+  .hero-nav.scrolled {
+    backdrop-filter: none !important;
+    background: rgba(10, 49, 67, 0.99) !important;
+  }
+  .mobile-menu {
+    backdrop-filter: none !important;
+    background: rgba(10, 49, 67, 0.99) !important;
+  }
+  .service-card {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .btn-beehive-whatsapp {
+    backdrop-filter: none !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+  }
+  .why-item {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .detail-item {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .faq-item {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .sticky-bar {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+  .btn-outline {
+    backdrop-filter: none !important;
+    background: #ffffff !important;
+  }
+
+  /* Disable expensive continuous scales on mobile compositor layers */
+  .hero-bg-img {
+    animation: none !important;
+  }
 }
 
 @media(max-width:380px){
@@ -771,6 +814,33 @@ footer{background:var(--text);color:var(--text-light);padding:80px 24px 120px}
   .hero-btns--fullscreen > * { padding: 15px 16px; font-size: 14px; }
   .hero-inner--fullscreen { padding: 72px 16px 110px; }
   .review-card { min-width: 260px; }
+}
+
+/* =======================================================
+   LOW-END DEVICE FALLBACK MODE (Adaptive Degradation)
+   Disables visual fluff to guarantee 60fps on slow CPUs/GPUs
+   ======================================================= */
+.low-end *, 
+.low-end *::before, 
+.low-end *::after {
+  animation-duration: 0.001s !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.001s !important;
+  transition-delay: 0s !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.low-end .hero-particles {
+  display: none !important;
+}
+.low-end .hero-bg-img {
+  animation: none !important;
+}
+.low-end .hero-title-accent {
+  animation: none !important;
+  text-shadow: none !important;
 }
 
 /* Global Mobile Fixes */
