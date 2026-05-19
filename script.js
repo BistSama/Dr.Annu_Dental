@@ -1,16 +1,17 @@
 // Mobile menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobileMenu');
-if (hamburger) {
+if (hamburger && mobileMenu) {
   hamburger.addEventListener('click', () => {
     const isOpen = mobileMenu.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', isOpen);
   });
+  
+  document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+  }));
 }
-document.querySelectorAll('.mobile-menu a').forEach(a => a.addEventListener('click', () => {
-  mobileMenu.classList.remove('open');
-  hamburger.setAttribute('aria-expanded', 'false');
-}));
 
 
 
@@ -22,12 +23,16 @@ document.querySelectorAll('.faq-q').forEach(btn => {
     document.querySelectorAll('.faq-q').forEach(b => { 
         b.classList.remove('open'); 
         b.setAttribute('aria-expanded', 'false');
-        b.nextElementSibling.classList.remove('open'); 
+        if (b.nextElementSibling) {
+            b.nextElementSibling.classList.remove('open'); 
+        }
     });
     if (!isOpen) { 
         btn.classList.add('open'); 
         btn.setAttribute('aria-expanded', 'true');
-        btn.nextElementSibling.classList.add('open'); 
+        if (btn.nextElementSibling) {
+            btn.nextElementSibling.classList.add('open'); 
+        }
     }
   });
 });
