@@ -97,8 +97,8 @@ body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-
 
 /* Entrance keyframe — used by .hero-anim elements */
 @keyframes heroFadeUp {
-  from { opacity:0; transform:translateY(36px); filter:blur(4px); }
-  to   { opacity:1; transform:translateY(0);   filter:blur(0); }
+  from { opacity:0; transform:translateY(36px); }
+  to   { opacity:1; transform:translateY(0); }
 }
 @keyframes float { 0%, 100% { transform:translateY(0); } 50% { transform:translateY(-8px); } }
 @keyframes particleDrift {
@@ -112,6 +112,7 @@ body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-
 
 .hero-anim {
   opacity:0;
+  will-change: transform, opacity;
   animation: heroFadeUp 0.9s var(--smooth) var(--anim-delay, 0s) both;
 }
 
@@ -190,7 +191,7 @@ body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-
   box-shadow: 0 0 10px 3px rgba(251,191,36,0.3), 0 0 28px 6px rgba(251,191,36,0.1);
   transform:scale(var(--s));
   animation: particleDrift var(--d) ease-in-out infinite;
-  filter: blur(0.5px);
+  will-change: transform, opacity;
 }
 
 /* Inner layout - Clean left-heavy alignment overlaying the background video */
