@@ -720,7 +720,11 @@ footer{background:var(--text);color:var(--text-light);padding:80px 24px 120px}
 
   /* Grids to Single Column */
   .about-grid,.why-grid,.booking-inner,.location-grid{grid-template-columns:1fr;gap:40px}
-  .about-img,.why-img{display:none} /* Hidden to compress vertical scroll, focus on content */
+  
+  .about-img img, .why-img img {
+    height: 340px; /* Reduce height on mobile to keep focus on text without excessive scrolling */
+    border-radius: 20px;
+  }
   
   /* Services & Reviews */
   .services-grid{grid-template-columns:1fr; gap:20px}
